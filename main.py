@@ -35,7 +35,7 @@ def reduce_recusive(lst, default, reduce_func):
     elif len(lst) > 1:
         return reduce_func(lst[0], reduce_recusive(lst[1:], default, reduce_func))
 
-    
+#test    
 if __name__ == '__main__':
     lst = [1, 3, 4, 6]
     print(lst[0])
