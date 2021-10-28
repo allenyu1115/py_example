@@ -26,7 +26,7 @@ def reduce_recusive(lst,default, reduce_func):
     if len(lst) == 0:
         return default
     elif len(lst) == 1:
-        return lst[0]
+        return reduce_func(default,lst[0])
     elif len(lst) > 1:
         return reduce_func(lst[0], reduce_recusive(lst[1:],default, reduce_func))
     
@@ -36,5 +36,5 @@ if __name__ == '__main__':
     print(lst[1:])
     print(map_list(lst, lambda x: x + 1))
     print(filter_list(lst, lambda x: x > 3))  
-    print(reduce_lst(lst, 0,lambda x, y : x + y)) 
-    print(reduce_recusive(lst, 0, lambda x, y : x + y))      
+    print(reduce_lst(lst, 0,lambda x, y : x + y + 7)) 
+    print(reduce_recusive(lst, 0, lambda x, y : x + y + 7))      
