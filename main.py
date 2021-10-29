@@ -70,3 +70,5 @@ if __name__ == '__main__':
                 return key
                 
     print(group_by_lst([('a',12),('b',56),('c',34),('c',24),('d',70)], lambda x: get_key(x[1])))
+    
+    
