@@ -49,7 +49,9 @@ def group_by_lst(lst, group_by_key_func):
         value.append(i)
         rdict[key] = value   
     return rdict   
-#test!
+
+
+
 if __name__ == '__main__':
     lst = [1, 3, 4, 6]
     print(lst[0])
@@ -65,5 +67,6 @@ if __name__ == '__main__':
     def get_key(x):
         for cond, key in group_by_condition.items():
             if cond(x):
-                return key    
+                return key
+                
     print(group_by_lst([('a',12),('b',56),('c',34),('c',24),('d',70)], lambda x: get_key(x[1])))
