@@ -73,11 +73,8 @@ def check_list(lst,category_func):
         if len(lst) == 0:
             return newLst
         else: 
-            ele = lst[0]      
-            if category_func(ele) == last_category:
-                current_key = last_key
-            else:
-                current_key = last_key + 1
+            ele = lst[0]   
+            current_key =  last_key if  category_func(ele) == last_category else last_key + 1         
             newLst.append((current_key, ele))
             return inner_check(lst[1:], current_key, category_func(ele), category_func)
     
