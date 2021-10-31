@@ -40,6 +40,7 @@ def get_key(x):
         for f, key in  group_by_condition.items():
             if f(x):
                 return key
+
             
 def group_by_lst(lst, group_by_key_func):
     rlst = map_list(lst, lambda x: (group_by_key_func(x), x))
@@ -51,24 +52,27 @@ def group_by_lst(lst, group_by_key_func):
     return rdict   
 
 
-
 if __name__ == '__main__':
+    y = {1:'a', 2:'a', 3:'c', 4:'e', 5:'a', 6:'c'}
+
+    print(group_by_lst(list(y.items()), lambda x: x[1]))
+        
     lst = [1, 3, 4, 6]
     print(lst[0])
+    
     print(lst[1:])
     print(map_list(lst, lambda x: x + 1))
     print(filter_list(lst, lambda x: x > 3))  
     print(reduce_lst(lst, 10, lambda x, y: x + y)) 
     print(reduce_recursive(lst, 10, lambda x, y: x + y)) 
     
-    group_by_condition = {lambda x: x < 18 : 'under age', lambda x: x >=18 and x < 30: 'young adult',
-          lambda x: x>=30 and x < 70: 'adult',lambda x: x >=70 : 'senior'}
+    group_by_condition = {lambda x: x < 18: 'under age', lambda x: x >= 18 and x < 30: 'young adult',
+          lambda x: x >= 30 and x < 70: 'adult', lambda x: x >= 70: 'senior'}
     
     def get_key(x):
         for cond, key in group_by_condition.items():
             if cond(x):
                 return key
                 
-    print(group_by_lst([('a',12),('b',56),('c',34),('c',24),('d',70)], lambda x: get_key(x[1])))
-    
+    print(group_by_lst([('a', 12), ('b', 56), ('c', 34), ('c', 24), ('d', 70)], lambda x: get_key(x[1])))
     
