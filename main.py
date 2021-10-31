@@ -1,7 +1,7 @@
 '''
 generated 10.28
 
-@author: ayu
+@author: Allen Yu
 '''
 
 
@@ -35,12 +35,6 @@ def reduce_recursive(lst, default, reduce_func):
     else:
         return default;
 
-
-def get_key(x):
-        for f, key in  group_by_condition.items():
-            if f(x):
-                return key
-
             
 def group_by_lst(lst, group_by_key_func):
     rlst = map_list(lst, lambda x: (group_by_key_func(x), x))
@@ -52,11 +46,7 @@ def group_by_lst(lst, group_by_key_func):
     return rdict   
 
 
-if __name__ == '__main__':
-    y = {1:'a', 2:'a', 3:'c', 4:'e', 5:'a', 6:'c'}
-
-    print(group_by_lst(list(y.items()), lambda x: x[1]))
-        
+def test():
     lst = [1, 3, 4, 6]
     print(lst[0])
     
@@ -73,6 +63,29 @@ if __name__ == '__main__':
         for cond, key in group_by_condition.items():
             if cond(x):
                 return key
-                
     print(group_by_lst([('a', 12), ('b', 56), ('c', 34), ('c', 24), ('d', 70)], lambda x: get_key(x[1])))
+
+        
+
+def split_lst(lst,key_func):
+    def inner_recursive(lst,last_element, position, keyfunc, position_increase_func, newLst):
+        if len(lst) == 0:
+            return newLst
+        else:
+            current_element = lst[0]
+            current_key = keyfunc(current_element)
+            last_key = keyfunc(last_element)
+            if current_key == position_increase_func(last_key):
+                current_key = last_key
+            newLst.append( (position, current_key, current_element) )
+            return inner_recursive( lst[1:],  current_element, position_increase_func(position), keyfunc, position_increase_func, newLst )  
+         
+    if len(lst) == 0:
+        return lst
+    else:
+        return inner_recursive(lst,lst[0], 0,key_func,lambda x: x + 1, [] )
     
+if __name__ == '__main__':
+    testString='ab123b23cdd432a'
+    test()
+
