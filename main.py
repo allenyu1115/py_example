@@ -66,26 +66,11 @@ def test():
     print(group_by_lst([('a', 12), ('b', 56), ('c', 34), ('c', 24), ('d', 70)], lambda x: get_key(x[1])))
 
         
-
-def split_lst(lst,key_func):
-    def inner_recursive(lst,last_element, position, keyfunc, position_increase_func, newLst):
-        if len(lst) == 0:
-            return newLst
-        else:
-            current_element = lst[0]
-            current_key = keyfunc(current_element)
-            last_key = keyfunc(last_element)
-            if current_key == position_increase_func(last_key):
-                current_key = last_key
-            newLst.append( (position, current_key, current_element) )
-            return inner_recursive( lst[1:],  current_element, position_increase_func(position), keyfunc, position_increase_func, newLst )  
-         
-    if len(lst) == 0:
-        return lst
-    else:
-        return inner_recursive(lst,lst[0], 0,key_func,lambda x: x + 1, [] )
     
 if __name__ == '__main__':
-    testString='ab123b23cdd432a'
+    testString='ab123b23cdd432a'    
+    x = group_by_lst(map_list(range(0, len(testString)), lambda x : (x, '*' if testString[x].isalpha() else '$'  ,testString[x])), lambda x:x[1])
+    y = {}
+    print(x)
     test()
 
