@@ -48,6 +48,7 @@ def group_by_lst(lst, group_by_key_func):
 
 def test():
     lst = [1, 3, 4, 6]
+    
     print(lst[0])   
     print(lst[1:])
     print(map_list(lst, lambda x: x + 1))
@@ -66,7 +67,7 @@ def test():
     print(group_by_lst([('a', 12), ('b', 56), ('c', 34), ('c', 24), ('d', 70)], lambda x: get_key(x[1])))
 
 
-def check_list(lst,category_func):
+def check_list(lst, category_func):
     newLst = []
 
     def inner_check(lst, last_key, last_category , category_func):
@@ -74,9 +75,10 @@ def check_list(lst,category_func):
             return newLst
         else: 
             ele = lst[0]   
-            current_key =  last_key if  category_func(ele) == last_category else last_key + 1         
+            current_category = category_func(ele) 
+            current_key = last_key if  current_category == last_category else last_key + 1         
             newLst.append((current_key, ele))
-            return inner_check(lst[1:], current_key, category_func(ele), category_func)
+            return inner_check(lst[1:], current_key, current_category, category_func)
     
     if len(lst) == 0:
         return newLst
@@ -86,10 +88,10 @@ def check_list(lst,category_func):
     
 if __name__ == '__main__':
     testString = 'ab123b23cdd432a'
-    x = group_by_lst(check_list(testString,lambda x: x.isalpha()), lambda x:x[0])
+    x = group_by_lst(check_list(testString, lambda x: x.isalpha()), lambda x:x[0])
     for key, value in x.items():
         y = map_list(value, lambda x: x[1])
-        z = reduce_lst(y, '', lambda x , y : x + y )
+        z = reduce_lst(y, '', lambda x , y: x + y)
         print(z)
     test()
 
