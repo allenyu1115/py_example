@@ -27,13 +27,28 @@ def reduce_lst(lst, default, reduce_func):
     return rst;
 
 
-def reduce_recursive(lst, default, reduce_func):
-    if len(lst) == 1:
+def reduce_recursive(lst, default, reduce_func): 
+    if len(lst) == 0:
+        return default
+    elif len(lst) == 1:
         return reduce_func(default, lst[0])
-    elif len(lst) > 1:
-        return reduce_func(lst[0], reduce_recursive(lst[1:], default, reduce_func))
     else:
-        return default;
+        return reduce_func(lst[0], reduce_recursive(lst[1:], default, reduce_func))
+
+    
+def reduce_tail_recursive(lst, default, reduce_func):
+    
+    def inner(lst, last_value, reduce_func):
+        if len(lst) == 0:
+            return last_value
+        else:
+            reduceValue = reduce_func(last_value, lst[0])
+            return inner(lst[1:], reduceValue, reduce_func)
+        
+    if len(lst) == 0:
+        return default
+    
+    return inner(lst, default, reduce_func)    
 
             
 def group_by_lst(lst, group_by_key_func):
@@ -55,6 +70,7 @@ def test():
     print(filter_list(lst, lambda x: x > 3))  
     print(reduce_lst(lst, 10, lambda x, y: x + y)) 
     print(reduce_recursive(lst, 10, lambda x, y: x + y)) 
+    print('tail:' + str(reduce_tail_recursive(lst, 10, lambda x, y: x + y))) 
     
     group_by_condition = {lambda x: x < 18: 'under age', lambda x: x >= 18 and x < 30: 'young adult',
           lambda x: x >= 30 and x < 70: 'adult', lambda x: x >= 70: 'senior'}
