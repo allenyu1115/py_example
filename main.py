@@ -35,7 +35,7 @@ def reduce_recursive(lst, default, reduce_func):
     else:
         return reduce_func(lst[0], reduce_recursive(lst[1:], default, reduce_func))
 
-    
+# tail recursive equals iteration
 def reduce_tail_recursive(lst, default, reduce_func):
     
     def inner(lst, last_value, reduce_func):
@@ -83,6 +83,7 @@ def test():
     print(group_by_lst([('a', 12), ('b', 56), ('c', 34), ('c', 24), ('d', 70)], lambda x: get_key(x[1])))
 
 
+# tail recursive equals iteration
 def check_list(lst, category_func):
     newLst = []
 
