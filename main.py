@@ -114,22 +114,28 @@ def check_list(lst, category_func):
 
 
 char_type_condition = { lambda char:len(char) == 0: CharType.end,
-                            lambda char: char.isspace(): CharType.blank,
-                            lambda char: char.isnumeric(): CharType.number,
-                            lambda char: char in ['+', '-', '*', '/']: CharType.operator,
-                            lambda char: char: CharType.undefine  }
+                        lambda char: char.isspace(): CharType.blank,
+                        lambda char: char.isnumeric(): CharType.number,
+                        lambda char: char in ['+', '-', '*', '/']: CharType.operator,
+                        lambda char: char: CharType.undefine  }
        
-def get_s_expression(s):
-    def get_s_expression_recursive(s, last_char_type, current_num, last_num, last_operator, combine_f):
+
+def  default_compute(operator, left_num, right_num):
+    return   '(' + operator + ' ' + left_num + ' ' + right_num + ')' if (left_num != '' and operator != '') else right_num
+
+    
+def get_s_expression(s, compute_func=default_compute):
+
+    def get_s_inner(s, last_char_type, current_num, last_num, last_operator, combine_f):
         current_char = '' if len(s) == 0 else s[0]
-        charType = get_key(current_char, char_type_condition)
-        if(charType == CharType.number):
-            return get_s_expression_recursive(s[1:], charType, current_num + current_char, last_num, last_operator, combine_f);
-        elif (charType == CharType.operator):
-            return get_s_expression_recursive(s[1:], charType, '', combine_f(last_operator, last_num, current_num), current_char, combine_f)
-        elif (charType == CharType.blank):
-            return get_s_expression_recursive(s[1:], last_char_type, current_num, last_num, last_operator, combine_f)
-        elif (charType == CharType.end):
+        char_type = get_key(current_char, char_type_condition)
+        if(char_type == CharType.number):
+            return get_s_inner(s[1:], char_type, current_num + current_char, last_num, last_operator, combine_f);
+        elif (char_type == CharType.operator):
+            return get_s_inner(s[1:], char_type, '', combine_f(last_operator, last_num, current_num), current_char, combine_f)
+        elif (char_type == CharType.blank):
+            return get_s_inner(s[1:], last_char_type, current_num, last_num, last_operator, combine_f)
+        elif (char_type == CharType.end):
             return combine_f(last_operator, last_num, current_num)
         else:
             return ''   
@@ -137,10 +143,7 @@ def get_s_expression(s):
     if len(s) == 0:
         return s
     else:
-        return get_s_expression_recursive(s, CharType.undefine, '', '', '',
-                                          lambda operator, left_num, right_num: 
-                                              '(' + operator + ' ' + left_num + ' ' + right_num + ')' if (left_num != '' and operator != '') 
-                                               else right_num)    
+        return get_s_inner(s, CharType.undefine, '', '', '', compute_func)    
 
 
 if __name__ == '__main__':
@@ -151,6 +154,21 @@ if __name__ == '__main__':
         z = reduce_lst(y, '', lambda x , y: x + y)
         print(z)
     test()
-    xx = get_s_expression('71 + 8 * 76 - 899 + 5')
+    original = '71 + 8 * 76 - 899 + 5'
+    xx = get_s_expression(original)
     print(xx)
+    operatorFunc = {'+':lambda x, y: x + y,
+                    '-':lambda x, y: x - y,
+                    '*':lambda x, y: x * y,
+                    '/': lambda x, y: x / y }
+
+    def  compute(operator, left_num, right_num):
+        if  left_num != '' and operator != '':
+            return operatorFunc.get(operator)(int(left_num), int(right_num))
+        else:
+            return right_num       
+
+    yy = get_s_expression(original, compute)
+    
+    print(yy)
 
