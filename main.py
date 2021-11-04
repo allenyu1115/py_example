@@ -13,7 +13,6 @@ class CharType(Enum):
     blank = 4
     end = 5
 
-
 def map_list(lst, func):
     rlst = []
     for l in lst:
@@ -126,17 +125,17 @@ def  default_compute(operator, left_num, right_num):
     
 def get_s_expression(s, compute_func=default_compute):
 
-    def get_s_inner(s, last_char_type, current_num, last_num, last_operator, combine_f):
+    def get_s_inner(s, last_char_type, right_num, left_num, last_operator, combine_f):
         current_char = '' if len(s) == 0 else s[0]
         char_type = get_key(current_char, char_type_condition)
         if(char_type == CharType.number):
-            return get_s_inner(s[1:], char_type, current_num + current_char, last_num, last_operator, combine_f);
+            return get_s_inner(s[1:], char_type, right_num + current_char, left_num, last_operator, combine_f);
         elif (char_type == CharType.operator):
-            return get_s_inner(s[1:], char_type, '', combine_f(last_operator, last_num, current_num), current_char, combine_f)
+            return get_s_inner(s[1:], char_type, '', combine_f(last_operator, left_num, right_num), current_char, combine_f)
         elif (char_type == CharType.blank):
-            return get_s_inner(s[1:], last_char_type, current_num, last_num, last_operator, combine_f)
+            return get_s_inner(s[1:], last_char_type, right_num, left_num, last_operator, combine_f)
         elif (char_type == CharType.end):
-            return combine_f(last_operator, last_num, current_num)
+            return combine_f(last_operator, left_num, right_num)
         else:
             return ''   
 
@@ -154,9 +153,8 @@ if __name__ == '__main__':
         z = reduce_lst(y, '', lambda x , y: x + y)
         print(z)
     test()
-    original = '71 + 8 * 76 - 899 + 5'
-    xx = get_s_expression(original)
-    print(xx)
+    original = '71 + 8 * 96 - 899 -85'
+    print(get_s_expression(original))
     operatorFunc = {'+':lambda x, y: x + y,
                     '-':lambda x, y: x - y,
                     '*':lambda x, y: x * y,
@@ -167,8 +165,5 @@ if __name__ == '__main__':
             return operatorFunc.get(operator)(int(left_num), int(right_num))
         else:
             return right_num       
-
-    yy = get_s_expression(original, compute)
-    
-    print(yy)
+    print(get_s_expression(original, compute))
 
