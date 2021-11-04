@@ -151,6 +151,6 @@ if __name__ == '__main__':
         z = reduce_lst(y, '', lambda x , y: x + y)
         print(z)
     test()
-    xx = get_s_expression('71 + 8 * 76 - 899 / 5')
+    xx = get_s_expression('71 + 8 * 76 - 899 + 5')
     print(xx)
 
