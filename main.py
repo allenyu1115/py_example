@@ -40,17 +40,14 @@ def reduce_recursive(lst, default, reduce_func):
 # tail recursive equals iteration
 def reduce_tail_recursive(lst, default, reduce_func):
     
-    def inner(lst, last_value, reduce_func):
+    def inner(lst, last_value):
         if len(lst) == 0:
             return last_value
         else:
             reduceValue = reduce_func(last_value, lst[0])
-            return inner(lst[1:], reduceValue, reduce_func)
+            return inner(lst[1:], reduceValue)
         
-    if len(lst) == 0:
-        return default
-    
-    return inner(lst, default, reduce_func)    
+    return default if len(lst) == 0 else inner(lst, default)    
 
             
 def group_by_lst(lst, group_by_key_func):
@@ -89,7 +86,7 @@ def test():
 def check_list(lst, category_func):
     newLst = []
 
-    def inner_check(lst, last_key, last_category , category_func):
+    def inner_check(lst, last_key, last_category):
         if len(lst) == 0:
             return newLst
         else: 
@@ -97,13 +94,9 @@ def check_list(lst, category_func):
             current_category = category_func(ele) 
             current_key = last_key if  current_category == last_category else last_key + 1         
             newLst.append((current_key, ele))
-            return inner_check(lst[1:], current_key, current_category, category_func)
+            return inner_check(lst[1:], current_key, current_category)
     
-    if len(lst) == 0:
-        return newLst
-    
-    return inner_check(lst, -1, category_func(lst[0]), category_func)
-
+    return newLst if len(lst) == 0 else inner_check(lst, -1, category_func(lst[0]))
 
 class CharType(Enum):
     operator = 1
@@ -135,24 +128,22 @@ def  default_compute(operator, left_num, right_num):
     
 def get_s_expression(s, compute_func=default_compute):
 
-    def get_s_inner(s, last_char_type, right_num, left_num, last_operator, combine_f):
+    def get_s_inner(s, last_char_type, right_num, left_num, last_operator):
         current_char = '' if len(s) == 0 else s[0]
         char_type = get_key(current_char, char_type_condition)
         if(char_type == CharType.number):
-            return get_s_inner(s[1:], char_type, right_num + current_char, left_num, last_operator, combine_f);
+            return get_s_inner(s[1:], char_type, right_num + current_char, left_num, last_operator);
         elif (char_type == CharType.operator):
-            return get_s_inner(s[1:], char_type, '', combine_f(last_operator, left_num, right_num), current_char, combine_f)
+            return get_s_inner(s[1:], char_type, '', compute_func(last_operator, left_num, right_num), current_char)
         elif (char_type == CharType.blank):
-            return get_s_inner(s[1:], last_char_type, right_num, left_num, last_operator, combine_f)
+            return get_s_inner(s[1:], last_char_type, right_num, left_num, last_operator)
         elif (char_type == CharType.end):
-            return combine_f(last_operator, left_num, right_num)
+            return compute_func(last_operator, left_num, right_num)
         else:
             return ''   
 
-    if len(s) == 0:
-        return s
-    else:
-        return get_s_inner(s, CharType.undefine, '', '', '', compute_func)    
+    
+    return s if len(s) == 0 else get_s_inner(s, CharType.undefine, '', '', '')    
 
     
 char_type_priority_condition = { lambda char:len(char) == 0: CharTypePriority.end,
@@ -164,41 +155,38 @@ char_type_priority_condition = { lambda char:len(char) == 0: CharTypePriority.en
 
 
 def get_s_expr(s, f_compute=default_compute):
+    
+    def sum_all(operator_stack, number_stack, default): 
+           
+        def inner(operator_stack, last_value):
+            if len(operator_stack) == 0:
+                return last_value
+            else:
+                return inner(operator_stack, f_compute(operator_stack.pop(), number_stack.pop(), last_value))
+        
+        return default if len(operator_stack) == 0 else inner(operator_stack, default)
+    
 
-    def get_s_expr_priority(s, right_num, number_stack, operator_stack, f_compute):
+    def get_s_expr_priority(s, right_num, number_stack, operator_stack):
         one_char = '' if len(s) == 0 else s[0]
         char_type = get_key(one_char, char_type_priority_condition)
         if char_type == CharTypePriority.number:
-            return get_s_expr_priority(s[1:], right_num + one_char, number_stack, operator_stack, f_compute)
+            return get_s_expr_priority(s[1:], right_num + one_char, number_stack, operator_stack)
         elif char_type in [CharTypePriority.operator_level, CharTypePriority.operator_level2]:
-            if len(operator_stack) != 0:
-                top_operator = operator_stack[-1]
-                top_operator_char_type = get_key(top_operator, char_type_priority_condition)
-                if top_operator_char_type.value < char_type.value:
-                    number_stack.append(right_num)
-                else:
-                    sum_num = right_num
-                    while len(operator_stack) != 0:
-                        current_operator = operator_stack.pop()
-                        sum_num = f_compute(current_operator, number_stack.pop(), sum_num) 
-                    number_stack.append(sum_num)
+            if len(operator_stack) != 0: 
+                number_stack.append(right_num if get_key(operator_stack[-1], char_type_priority_condition).value < char_type.value 
+                                    else sum_all(operator_stack, number_stack, right_num))
+                  
             else:
                 number_stack.append(right_num)                
             operator_stack.append(one_char)
-            return get_s_expr_priority(s[1:], '', number_stack, operator_stack , f_compute)
+            return get_s_expr_priority(s[1:], '', number_stack, operator_stack)
         elif (char_type == CharTypePriority.blank):
-            return get_s_expr_priority(s[1:], right_num, number_stack, operator_stack, f_compute)
+            return get_s_expr_priority(s[1:], right_num, number_stack, operator_stack)
         elif (char_type == CharTypePriority.end):
-            sum_num = right_num
-            while len(operator_stack) != 0:
-                current_operator = operator_stack.pop()
-                sum_num = f_compute(current_operator, number_stack.pop(), sum_num) 
-            return sum_num
+            return sum_all(operator_stack, number_stack, right_num)
         
-    if len(s) == 0:
-        return s
-    else:
-        return get_s_expr_priority(s, '', [], [], f_compute)
+    return s if len(s) == 0 else get_s_expr_priority(s, '', [], [])
     
     
 if __name__ == '__main__':
