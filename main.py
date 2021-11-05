@@ -145,7 +145,7 @@ def get_s_expression(s, compute_func=default_compute):
     
     return s if len(s) == 0 else get_s_inner(s, CharType.undefine, '', '', '')    
 
-    
+
 char_type_priority_condition = { lambda char:len(char) == 0: CharTypePriority.end,
                         lambda char: char.isspace(): CharTypePriority.blank,
                         lambda char: char.isnumeric(): CharTypePriority.number,
