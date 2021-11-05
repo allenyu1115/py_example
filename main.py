@@ -4,14 +4,7 @@ generated 10.28
 @author: Allen Yu
 '''
 from enum import Enum
-
-
-class CharType(Enum):
-    operator = 1
-    number = 2
-    undefine = 3
-    blank = 4
-    end = 5
+    
 
 def map_list(lst, func):
     rlst = []
@@ -112,6 +105,23 @@ def check_list(lst, category_func):
     return inner_check(lst, -1, category_func(lst[0]), category_func)
 
 
+class CharType(Enum):
+    operator = 1
+    number = 2
+    undefine = 3
+    blank = 4
+    end = 5
+    
+    
+class CharTypePriority(Enum):
+    operator_level = 1
+    operator_level2 = 2
+    undefine = 3
+    blank = 4
+    number = 5
+    end = 6
+
+    
 char_type_condition = { lambda char:len(char) == 0: CharType.end,
                         lambda char: char.isspace(): CharType.blank,
                         lambda char: char.isnumeric(): CharType.number,
@@ -144,7 +154,53 @@ def get_s_expression(s, compute_func=default_compute):
     else:
         return get_s_inner(s, CharType.undefine, '', '', '', compute_func)    
 
+    
+char_type_priority_condition = { lambda char:len(char) == 0: CharTypePriority.end,
+                        lambda char: char.isspace(): CharTypePriority.blank,
+                        lambda char: char.isnumeric(): CharTypePriority.number,
+                        lambda char: char in ['+', '-']: CharTypePriority.operator_level,
+                        lambda char: char in ['*', '/']: CharTypePriority.operator_level2,
+                        lambda char: char: CharTypePriority.undefine  }
 
+
+def get_s_expr(s, f_compute=default_compute):
+
+    def get_s_expr_priority(s, right_num, number_stack, operator_stack, f_compute):
+        one_char = '' if len(s) == 0 else s[0]
+        char_type = get_key(one_char, char_type_priority_condition)
+        if char_type == CharTypePriority.number:
+            return get_s_expr_priority(s[1:], right_num + one_char, number_stack, operator_stack, f_compute)
+        elif char_type in [CharTypePriority.operator_level, CharTypePriority.operator_level2]:
+            if len(operator_stack) != 0:
+                top_operator = operator_stack[-1]
+                top_operator_char_type = get_key(top_operator, char_type_priority_condition)
+                if top_operator_char_type.value < char_type.value:
+                    number_stack.append(right_num)
+                else:
+                    sum_num = right_num
+                    while len(operator_stack) != 0:
+                        current_operator = operator_stack.pop()
+                        sum_num = f_compute(current_operator, number_stack.pop(), sum_num) 
+                    number_stack.append(sum_num)
+            else:
+                number_stack.append(right_num)                
+            operator_stack.append(one_char)
+            return get_s_expr_priority(s[1:], '', number_stack, operator_stack , f_compute)
+        elif (char_type == CharTypePriority.blank):
+            return get_s_expr_priority(s[1:], right_num, number_stack, operator_stack, f_compute)
+        elif (char_type == CharTypePriority.end):
+            sum_num = right_num
+            while len(operator_stack) != 0:
+                current_operator = operator_stack.pop()
+                sum_num = f_compute(current_operator, number_stack.pop(), sum_num) 
+            return sum_num
+        
+    if len(s) == 0:
+        return s
+    else:
+        return get_s_expr_priority(s, '', [], [], f_compute)
+    
+    
 if __name__ == '__main__':
     testString = 'ab123b23cdd432a'
     x = group_by_lst(check_list(testString, lambda x: x.isalpha()), lambda x:x[0])
@@ -153,8 +209,9 @@ if __name__ == '__main__':
         z = reduce_lst(y, '', lambda x , y: x + y)
         print(z)
     test()
-    original = '71 + 8 * 96 - 899 -85'
+    original = '71 + 8 * 96 - 899 - 85'
     print(get_s_expression(original))
+    print(get_s_expr(original))
     operatorFunc = {'+':lambda x, y: x + y,
                     '-':lambda x, y: x - y,
                     '*':lambda x, y: x * y,
@@ -165,5 +222,7 @@ if __name__ == '__main__':
             return operatorFunc.get(operator)(int(left_num), int(right_num))
         else:
             return right_num       
+
     print(get_s_expression(original, compute))
+    print(get_s_expr(original, compute))
 
