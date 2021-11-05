@@ -197,7 +197,7 @@ if __name__ == '__main__':
         z = reduce_lst(y, '', lambda x , y: x + y)
         print(z)
     test()
-    original = '71 + 8 * 96 - 899 - 85'
+    original = '71 + 8 * 96 - 899 - 85 + 8 / 4 '
     print(get_s_expression(original))
     print(get_s_expr(original))
     operatorFunc = {'+':lambda x, y: x + y,
