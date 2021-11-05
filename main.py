@@ -98,6 +98,7 @@ def check_list(lst, category_func):
     
     return newLst if len(lst) == 0 else inner_check(lst, -1, category_func(lst[0]))
 
+
 class CharType(Enum):
     operator = 1
     number = 2
@@ -122,7 +123,7 @@ char_type_condition = { lambda char:len(char) == 0: CharType.end,
                         lambda char: char: CharType.undefine  }
        
 
-def  default_compute(operator, left_num, right_num):
+def default_compute(operator, left_num, right_num):
     return   '(' + operator + ' ' + left_num + ' ' + right_num + ')' if (left_num != '' and operator != '') else right_num
 
     
@@ -141,7 +142,6 @@ def get_s_expression(s, compute_func=default_compute):
             return compute_func(last_operator, left_num, right_num)
         else:
             return ''   
-
     
     return s if len(s) == 0 else get_s_inner(s, CharType.undefine, '', '', '')    
 
@@ -165,7 +165,6 @@ def get_s_expr(s, f_compute=default_compute):
                 return inner(operator_stack, f_compute(operator_stack.pop(), number_stack.pop(), last_value))
         
         return default if len(operator_stack) == 0 else inner(operator_stack, default)
-    
 
     def get_s_expr_priority(s, right_num, number_stack, operator_stack):
         one_char = '' if len(s) == 0 else s[0]
