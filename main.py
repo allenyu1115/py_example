@@ -74,7 +74,7 @@ def test_map_reduce_filter():
     print(filter_list(lst, lambda x: x > 3))  
     print(reduce_lst(lst, 10, lambda x, y: x + y)) 
     print(reduce_recursive(lst, 10, lambda x, y: x + y)) 
-    print('tail:' + str(reduce_tail_recursive(lst, 10, lambda x, y: x + y))) 
+    print('tail recursive:' + str(reduce_tail_recursive(lst, 10, lambda x, y: x + y))) 
     
     group_by_condition = {lambda x: x < 18: 'under age', lambda x: x >= 18 and x < 30: 'young adult',
           lambda x: x >= 30 and x < 70: 'adult', lambda x: x >= 70: 'senior'}
@@ -169,13 +169,17 @@ def get_s_expr(s, f_compute=default_compute):
     
     
 if __name__ == '__main__':
-    testString = 'ab123b23cdd432a'
-    x = group_by_lst(check_list(testString, lambda x: x.isalpha()), lambda x:x[0])
-    for key, value in x.items():
-        y = map_list(value, lambda x: x[1])
-        z = reduce_lst(y, '', lambda x , y: x + y)
-        print(z)
+    
     test_map_reduce_filter()
+    test_str = 'ab123b23cdd432a'
+    
+    grp_lst = group_by_lst(check_list(test_str, lambda x: x.isalpha()), lambda x:x[0])
+    rlst = []
+    for key, value in grp_lst.items():
+        mapped_lst = map_list(value, lambda x: x[1])
+        reduce_value = reduce_lst(mapped_lst, '', lambda x , y: x + y)
+        rlst.append(reduce_value)
+    print(rlst)
     
     original = '71 + 8 * 96 - 899 - 85 + 8 / 4 '
     operatorFunc = {'+':lambda x, y: x + y,
