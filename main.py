@@ -2,9 +2,9 @@
 generated 10.28
 
 @author: Allen Yu
+
 '''
 from enum import Enum
-from pip._internal import self_outdated_check
     
 
 def map_list(lst, func):
