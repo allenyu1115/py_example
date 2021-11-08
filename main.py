@@ -41,11 +41,7 @@ def reduce_recursive(lst, default, reduce_func):
 def reduce_tail_recursive(lst, default, reduce_func):
     
     def inner(lst, last_value):
-        if len(lst) == 0:
-            return last_value
-        else:
-            reduceValue = reduce_func(last_value, lst[0])
-            return inner(lst[1:], reduceValue)
+        return last_value if len(lst) == 0 else inner(lst[1:], reduce_func(last_value, lst[0]))
         
     return default if len(lst) == 0 else inner(lst, default)    
 
