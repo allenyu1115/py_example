@@ -100,28 +100,21 @@ def check_list(lst, category_func):
 
 
 class CharType(Enum):
-    operator = 1
-    number = 2
-    undefine = 3
-    blank = 4
-    end = 5
-    
-    
-class CharTypePriority(Enum):
     operator_level = 1
     operator_level2 = 2
     undefine = 3
     blank = 4
     number = 5
     end = 6
-
     
+
 char_type_condition = { lambda char:len(char) == 0: CharType.end,
                         lambda char: char.isspace(): CharType.blank,
                         lambda char: char.isnumeric(): CharType.number,
-                        lambda char: char in ['+', '-', '*', '/']: CharType.operator,
+                        lambda char: char in ['+', '-']: CharType.operator_level,
+                        lambda char: char in ['*', '/']: CharType.operator_level2,
                         lambda char: char: CharType.undefine  }
-       
+
 
 def default_compute(operator, left_num, right_num):
     return   '(' + operator + ' ' + left_num + ' ' + right_num + ')' if (left_num != '' and operator != '') else right_num
@@ -134,7 +127,7 @@ def get_s_expression(s, compute_func=default_compute):
         char_type = get_key(current_char, char_type_condition)
         if(char_type == CharType.number):
             return get_s_inner(s[1:], char_type, right_num + current_char, left_num, last_operator);
-        elif (char_type == CharType.operator):
+        elif (char_type == CharType.operator_level or char_type == CharType.operator_level2):
             return get_s_inner(s[1:], char_type, '', compute_func(last_operator, left_num, right_num), current_char)
         elif (char_type == CharType.blank):
             return get_s_inner(s[1:], last_char_type, right_num, left_num, last_operator)
@@ -144,14 +137,6 @@ def get_s_expression(s, compute_func=default_compute):
             return ''   
     
     return s if len(s) == 0 else get_s_inner(s, CharType.undefine, '', '', '')    
-
-
-char_type_priority_condition = { lambda char:len(char) == 0: CharTypePriority.end,
-                        lambda char: char.isspace(): CharTypePriority.blank,
-                        lambda char: char.isnumeric(): CharTypePriority.number,
-                        lambda char: char in ['+', '-']: CharTypePriority.operator_level,
-                        lambda char: char in ['*', '/']: CharTypePriority.operator_level2,
-                        lambda char: char: CharTypePriority.undefine  }
 
 
 def get_s_expr(s, f_compute=default_compute):
@@ -168,21 +153,21 @@ def get_s_expr(s, f_compute=default_compute):
 
     def get_s_expr_priority(s, right_num, number_stack, operator_stack):
         one_char = '' if len(s) == 0 else s[0]
-        char_type = get_key(one_char, char_type_priority_condition)
-        if char_type == CharTypePriority.number:
+        char_type = get_key(one_char, char_type_condition)
+        if char_type == CharType.number:
             return get_s_expr_priority(s[1:], right_num + one_char, number_stack, operator_stack)
-        elif char_type in [CharTypePriority.operator_level, CharTypePriority.operator_level2]:
+        elif char_type in [CharType.operator_level, CharType.operator_level2]:
             if len(operator_stack) != 0: 
-                number_stack.append(right_num if get_key(operator_stack[-1], char_type_priority_condition).value < char_type.value 
+                number_stack.append(right_num if get_key(operator_stack[-1], char_type_condition).value < char_type.value 
                                     else sum_all(operator_stack, number_stack, right_num))
                   
             else:
                 number_stack.append(right_num)                
             operator_stack.append(one_char)
             return get_s_expr_priority(s[1:], '', number_stack, operator_stack)
-        elif (char_type == CharTypePriority.blank):
+        elif (char_type == CharType.blank):
             return get_s_expr_priority(s[1:], right_num, number_stack, operator_stack)
-        elif (char_type == CharTypePriority.end):
+        elif (char_type == CharType.end):
             return sum_all(operator_stack, number_stack, right_num)
         
     return s if len(s) == 0 else get_s_expr_priority(s, '', [], [])
