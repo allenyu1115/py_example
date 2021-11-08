@@ -66,9 +66,8 @@ def get_key(x, group_by_condition):
                 return key
 
 
-def test():
-    lst = [1, 3, 4, 6]
-    
+def test_map_reduce_filter():
+    lst = [1, 3, 4, 6]  
     print(lst[0])   
     print(lst[1:])
     print(map_list(lst, lambda x: x + 1))
@@ -120,7 +119,7 @@ def default_compute(operator, left_num, right_num):
     return   '(' + operator + ' ' + left_num + ' ' + right_num + ')' if (left_num != '' and operator != '') else right_num
 
     
-def get_s_expression(s, compute_func=default_compute):
+def get_s_exp_left_to_right(s, compute_func=default_compute):
 
     def get_s_inner(s, last_char_type, right_num, left_num, last_operator):
         current_char = '' if len(s) == 0 else s[0]
@@ -157,12 +156,8 @@ def get_s_expr(s, f_compute=default_compute):
         if char_type == CharType.number:
             return get_s_expr_priority(s[1:], right_num + one_char, number_stack, operator_stack)
         elif char_type in [CharType.operator_level, CharType.operator_level2]:
-            if len(operator_stack) != 0: 
-                number_stack.append(right_num if get_key(operator_stack[-1], char_type_condition).value < char_type.value 
-                                    else sum_all(operator_stack, number_stack, right_num))
-                  
-            else:
-                number_stack.append(right_num)                
+            number_stack.append((right_num if get_key(operator_stack[-1], char_type_condition).value < char_type.value 
+                                    else sum_all(operator_stack, number_stack, right_num))  if  len(operator_stack) != 0 else right_num)                
             operator_stack.append(one_char)
             return get_s_expr_priority(s[1:], '', number_stack, operator_stack)
         elif (char_type == CharType.blank):
@@ -180,21 +175,22 @@ if __name__ == '__main__':
         y = map_list(value, lambda x: x[1])
         z = reduce_lst(y, '', lambda x , y: x + y)
         print(z)
-    test()
+    test_map_reduce_filter()
+    
     original = '71 + 8 * 96 - 899 - 85 + 8 / 4 '
-    print(get_s_expression(original))
-    print(get_s_expr(original))
     operatorFunc = {'+':lambda x, y: x + y,
                     '-':lambda x, y: x - y,
                     '*':lambda x, y: x * y,
                     '/': lambda x, y: x / y }
-
+    
     def  compute(operator, left_num, right_num):
         if  left_num != '' and operator != '':
             return operatorFunc.get(operator)(int(left_num), int(right_num))
         else:
-            return right_num       
-
-    print(get_s_expression(original, compute))
+            return right_num 
+        
+    print(get_s_exp_left_to_right(original))
+    print(get_s_expr(original))
+    print(get_s_exp_left_to_right(original, compute))
     print(get_s_expr(original, compute))
 
