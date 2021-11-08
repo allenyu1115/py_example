@@ -4,6 +4,7 @@ generated 10.28
 @author: Allen Yu
 '''
 from enum import Enum
+from pip._internal import self_outdated_check
     
 
 def map_list(lst, func):
@@ -28,6 +29,28 @@ def reduce_lst(lst, default, reduce_func):
     return rst;
 
 
+class CustomerizedList:
+    def __init__(self,lst):
+        self.lst = lst
+        self.map_func_lst = []
+
+    def map(self,map_func):
+        self.map_func_lst.append(map_func)
+        return self
+    
+    def clear_map_func(self):
+        self.map_func_lst.clear()
+        
+    def execute(self): 
+        rlst = []
+        for i in self.lst:
+            result = i
+            for func in self.map_func_lst:
+                result = func(result)
+            rlst.append(result)
+        return rlst
+
+                
 def reduce_recursive(lst, default, reduce_func): 
     if len(lst) == 0:
         return default
@@ -166,6 +189,7 @@ def get_s_expr(s, f_compute=default_compute):
     
 if __name__ == '__main__':
     
+    print(CustomerizedList([1,2,6,4]).map(lambda x: x + 1).map(lambda x: x*2).execute())
     test_map_reduce_filter()
     test_str = 'ab123b23cdd432a'
     
