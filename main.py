@@ -29,7 +29,7 @@ def reduce_lst(lst, default, reduce_func):
     return rst;
 
 
-class CustomerizedList:
+class CustomizedList:
     def __init__(self,lst):
         self.lst = lst
         self.map_func_lst = []
@@ -189,7 +189,7 @@ def get_s_expr(s, f_compute=default_compute):
     
 if __name__ == '__main__':
     
-    print(CustomerizedList([1,2,6,4]).map(lambda x: x + 1).map(lambda x: x*2).execute())
+    print(CustomizedList([1,2,6,4]).map(lambda x: x + 1).map(lambda x: x*2).execute())
     test_map_reduce_filter()
     test_str = 'ab123b23cdd432a'
     
