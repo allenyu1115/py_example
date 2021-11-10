@@ -18,11 +18,14 @@ def read_from_file(file_path):
 
 if __name__ == '__main__':
     site_type_lst = read_from_file('.\\files\\site_type_for_cc.txt')
+    #remove \n 
     all_icon_lst = map_list(read_from_file('.\\files\\all_icons_name.txt'),lambda x: x.strip()) 
+    # map original list  remove space, remove \r\n, remove \ remove / .  add st_*.png
     arranged_lst = map_list(filter_list(map_list(site_type_lst, lambda x : x.strip().replace(' ','').replace('\\','').replace('/','').lower()), 
                       lambda x: True if not x.startswith('-----------------') else False), lambda x: 'st_' + x + '.png')
-    print(arranged_lst)
+    #filter 
     rlst = filter_list(arranged_lst, lambda x: True if x not in all_icon_lst else False)
     print(rlst)
+    print(len(rlst))
     
     
