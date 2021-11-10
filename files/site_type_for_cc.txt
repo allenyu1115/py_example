@@ -1,0 +1,86 @@
+--------------------------------------RA Contract------------------------------------
+Boat Site
+Campsite
+Cabin
+Mooring Site
+Full Service Accomodation
+--------------------------------------SK Contract------------------------------------
+Boat Site
+Campsite
+Cabin
+Mooring Site
+Full Service Accomodation
+--------------------------------------PEI Contract------------------------------------
+Camp Cabin
+2 way
+No Service
+3 way
+2 way Premium
+3 way Premium
+No Service Premium
+--------------------------------------MB Contract------------------------------------
+Boat Site
+Campsite
+Cabin
+Mooring Site
+Full Service Accomodation
+--------------------------------------AB Parks Contract------------------------------------
+Day Use Area
+Group Area
+Exhibit Area
+Amphitheatre
+Classroom
+Hall
+Daily Entrance
+Biathlon
+Ceremony Sites
+Meeting Rooms / Conference
+Outdoor Venues
+Team Rooms
+Wax Rooms
+--------------------------------------TEST Contract------------------------------------
+Boat Site
+Campsite
+Cabin
+Mooring Site
+Full Service Accomodation
+--------------------------------------AB Contract------------------------------------
+Boat Site
+Campsite
+Cabin
+Mooring Site
+Full Service Accomodation
+--------------------------------------SK Parks Contract------------------------------------
+Camp-Easy Tent
+Camp-Easy Yurt
+Camp-Easy Mongolian Yurt
+Nightly Full Service
+Nightly Electric
+Nightly Non-Electric
+Nightly Economy
+Nightly Equestrian
+Group Electric - Small
+Group Electric - Medium
+Group Electric - Large
+Group Non-Electric - Small
+Group Non-Electric - Medium
+Group Non-Electric - Large
+Group Economy - Small
+Group Economy - Medium
+Group Economy - Large
+Overflow
+Picnic Shelter Electric - Small
+Picnic Shelter Electric - Medium
+Picnic Shelter Electric - Large
+Picnic Shelter Non-Electric - Small
+Picnic Shelter Non-Electric - Medium
+Picnic Shelter Non-Electric - Large
+Recreation Hall
+Seasonal Electric
+Seasonal Non-Electric
+Seasonal Economy
+Swimming Lesson
+Daily Park Entry
+Seasonal Full Service
+Special Event Application
+Double Site - Nightly Electric

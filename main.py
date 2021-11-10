@@ -5,6 +5,8 @@ generated 10.28
 
 '''
 from enum import Enum
+
+
     
 
 def map_list(lst, func):
