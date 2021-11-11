@@ -1,12 +1,5 @@
 '''
-
 compare the site_type_for_cc.txt
-
-BA requests remove the space, remove \, and remove /
-
-for example Group Non-Electric - Small is  GroupNon-Electric-Small and converted it all to lower cased
-and then check if   l st_groupnon-electric-samll.png exists in all_icons_name.txt
-
 
 '''
 from main import map_list,filter_list
