@@ -7,8 +7,6 @@ generated 10.28
 from enum import Enum
 
 
-    
-
 def map_list(lst, func):
     rlst = []
     for l in lst:
@@ -32,11 +30,12 @@ def reduce_lst(lst, default, reduce_func):
 
 
 class CustomizedList:
-    def __init__(self,lst):
+
+    def __init__(self, lst):
         self.lst = lst
         self.map_func_lst = []
 
-    def map(self,map_func):
+    def map(self, map_func):
         self.map_func_lst.append(map_func)
         return self
     
@@ -187,11 +186,11 @@ def get_s_expr(s, f_compute=default_compute):
             return sum_all(operator_stack, number_stack, right_num)
         
     return s if len(s) == 0 else get_s_expr_priority(s, '', [], [])
-    
+
     
 if __name__ == '__main__':
-    
-    print(CustomizedList([1,2,6,4]).map(lambda x: x + 1).map(lambda x: x*2).execute())
+
+    print(CustomizedList([1, 2, 6, 4]).map(lambda x: x + 1).map(lambda x: x * 2).execute())
     test_map_reduce_filter()
     test_str = 'ab123b23cdd432a'
     
