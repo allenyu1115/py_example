@@ -129,7 +129,9 @@ def create_obj_by_class(class_name, *args):
 if __name__ == '__main__':
     MyClass1().print_some_thing('hello').print_me('world', '!')
     MyClass2('test2').a
+    
     print('-----------------')
+    
     log(do_something_func, 'hello', 'world')
     log(do_something_func2, 'world2')
     
