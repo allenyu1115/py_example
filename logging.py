@@ -137,3 +137,5 @@ if __name__ == '__main__':
     my_class1_obj = create_obj_by_class('class1', 'first class')
     my_class1_obj['object methods']['obj_func2'](my_class1_obj, 'hello', 'world')
     
+    class_objs['class2']['class function']['class_func'](' hello, class ')
+    
