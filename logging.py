@@ -119,7 +119,7 @@ class_objs = {'class1': create_class('class1', init_func1, {'obj_func':obj_func,
 
 
 def invoke_object_method(obj, func_name, *args):
-    return obj['object methods'][func_name](obj, * args)
+    return obj['class']['object functions'][func_name](obj, * args)
 
 
 def invoke_class_method(class_name, class_func_name, *args):
@@ -129,8 +129,7 @@ def invoke_class_method(class_name, class_func_name, *args):
 def create_obj_by_class(class_name, *args):
     new_obj = {}
     class_objs[class_name]['initialized function'](new_obj, *args)
-    new_obj['object methods'] = class_objs[class_name]['object functions']
-    new_obj['class function'] = class_objs[class_name]['class function']
+    new_obj['class'] = class_objs[class_name]
     return new_obj
     
     
