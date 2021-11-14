@@ -4,7 +4,7 @@ Created on Nov 14, 2021
 @author: Allen Yu
 '''
 
-islogging = False
+islogging = True
 
 '''
 class version
