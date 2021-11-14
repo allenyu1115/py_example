@@ -97,7 +97,7 @@ def obj_func3(obj, a):
 
     
 def class_func(a):
-    print('class func1' + a)
+    print('class func1: ' + a)
 
 
 def init_func1(obj, a):
@@ -118,8 +118,13 @@ class_objs = {'class1': create_class('class1', init_func1, {'obj_func':obj_func,
                                                {'class_func': class_func})}
 
 
-def invoke_object_method(obj, func, *args):
-    return func(obj, *args)
+def invoke_object_method(obj, func_name, *args):
+    return obj['object methods'][func_name](obj, * args)
+
+
+def invoke_class_method(class_name, class_func_name, *args):
+    return class_objs[class_name]['class function'][class_func_name](*args)
+
 
 def create_obj_by_class(class_name, *args):
     new_obj = {}
@@ -141,6 +146,7 @@ if __name__ == '__main__':
     print('-------------------test my own class system')
     
     my_class1_obj = create_obj_by_class('class1', 'first class')
-    invoke_object_method(my_class1_obj, my_class1_obj['object methods']['obj_func2'],'hello','world')   
-    class_objs['class2']['class function']['class_func'](' hello, class ')
+
+    invoke_object_method(my_class1_obj, 'obj_func2', 'hello', 'world')  
+    invoke_class_method('class2', 'class_func', 'hello class ')
     
