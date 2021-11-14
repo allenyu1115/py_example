@@ -83,6 +83,7 @@ simulated class version
 
 '''
 
+
 def obj_func(obj, a):
     print('func1' + str(obj) + a)
 
@@ -132,7 +133,7 @@ if __name__ == '__main__':
     log(do_something_func, 'hello', 'world')
     log(do_something_func2, 'world2')
     
-    print('test my own class system')
+    print('-------------------test my own class system')
     
     my_class1_obj = create_obj_by_class('class1', 'first class')
     my_class1_obj['object methods']['obj_func2'](my_class1_obj, 'hello', 'world')
