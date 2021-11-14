@@ -6,6 +6,10 @@ Created on Nov 14, 2021
 
 islogging = False
 
+'''
+class version
+'''
+
 class LoggingBase:
     def __getattribute__(self, item):
         attr = super(LoggingBase, self).__getattribute__(item)
@@ -39,7 +43,7 @@ with no class involved
 
 '''    
   
-def log_func_execute_info(func, *args):  
+def log(func, *args):  
     def inner_no_log():
         return func(*args)
     
@@ -64,5 +68,5 @@ if __name__ == '__main__':
     MyClass1().print_some_thing('hello').print_me('world','!')
     MyClass2('test2').a
     print('-----------------')
-    log_func_execute_info(do_something_func, 'hello','world')
-    log_func_execute_info(do_something_func2,'world2')
+    log(do_something_func, 'hello','world')
+    log(do_something_func2,'world2')
