@@ -117,7 +117,9 @@ class_objs = {'class1': create_class('class1', init_func1, {'obj_func':obj_func,
               'class2': create_class('class2', init_func2, {'obj_func3': obj_func3 },
                                                {'class_func': class_func})}
 
-
+'''
+add the log here 
+'''
 def invoke_object_method(obj, func_name, *args):
     return obj['class']['object functions'][func_name](obj, * args)
 
