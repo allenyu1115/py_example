@@ -7,14 +7,14 @@ Created on Nov 14, 2021
 class LoggingBase:
     def __getattribute__(self, item):
         attr = super(LoggingBase, self).__getattribute__(item)
-        attr_type = type(attr)
-        print(attr_type)
         def decorate_func(*args):
+            print('-----------log input parameter')
             print('class :' + str(self) + ';method:' + str(attr.__func__))
             for arg in args:
                 print('parameter: ' + arg)
+            print('----------end log input parameter')
             rval= attr.__func__(self, *args)
-            print('the result log:' + str(rval))
+            print('----------the result log:' + str(rval))
             return rval
         return decorate_func
     
@@ -28,8 +28,34 @@ class MyClass2(LoggingBase):
 class MyClass1(LoggingBase):
     def print_some_thing(self,a):
         print('myClass1' + a)
-        return MyClass2('test')  
+        return MyClass2('test')     
+
+'''
+
+Simple version
+with no class involved
+
+'''    
+  
+def log_func_execute_info(func, *args):  
+    print('----- logging function name----'+str(func))
+    for arg in args:
+        print('parameter:' + arg)
+    print('----- end logging parameter')
+    rvalue = func(*args)
+    print('-----log result:' + str(rvalue))
+    return rvalue
+
+def do_something_func(a,b):
+    print('print:' + a + b)
+    
+def do_something_func2(a):
+    print('print me' + a)
+    
     
 if __name__ == '__main__':
     MyClass1().print_some_thing('hello').print_me('world','!')
     MyClass2('test2').a
+    
+    log_func_execute_info(do_something_func, 'hello','world')
+    log_func_execute_info(do_something_func2,'world2')
