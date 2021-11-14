@@ -118,6 +118,9 @@ class_objs = {'class1': create_class('class1', init_func1, {'obj_func':obj_func,
                                                {'class_func': class_func})}
 
 
+def invoke_object_method(obj, func, *args):
+    return func(obj, *args)
+
 def create_obj_by_class(class_name, *args):
     new_obj = {}
     class_objs[class_name]['initialized function'](new_obj, *args)
@@ -138,7 +141,6 @@ if __name__ == '__main__':
     print('-------------------test my own class system')
     
     my_class1_obj = create_obj_by_class('class1', 'first class')
-    my_class1_obj['object methods']['obj_func2'](my_class1_obj, 'hello', 'world')
-    
+    invoke_object_method(my_class1_obj, my_class1_obj['object methods']['obj_func2'],'hello','world')   
     class_objs['class2']['class function']['class_func'](' hello, class ')
     
