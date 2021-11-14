@@ -128,8 +128,8 @@ def invoke_class_method(class_name, class_func_name, *args):
 
 def create_obj_by_class(class_name, *args):
     new_obj = {}
-    class_objs[class_name]['initialized function'](new_obj, *args)
     new_obj['class'] = class_objs[class_name]
+    new_obj['class']['initialized function'](new_obj, *args)
     return new_obj
     
     
