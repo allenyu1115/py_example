@@ -4,6 +4,8 @@ Created on Nov 14, 2021
 @author: Allen Yu
 '''
 
+islogging = False
+
 class LoggingBase:
     def __getattribute__(self, item):
         attr = super(LoggingBase, self).__getattribute__(item)
@@ -16,7 +18,7 @@ class LoggingBase:
             rval= attr.__func__(self, *args)
             print('----------the result log:' + str(rval))
             return rval
-        return decorate_func
+        return decorate_func if islogging is True else attr
     
 class MyClass2(LoggingBase):
     def __init__(self,a):
@@ -38,13 +40,18 @@ with no class involved
 '''    
   
 def log_func_execute_info(func, *args):  
-    print('----- logging function name----'+str(func))
-    for arg in args:
-        print('parameter:' + arg)
-    print('----- end logging parameter')
-    rvalue = func(*args)
-    print('-----log result:' + str(rvalue))
-    return rvalue
+    def inner_no_log():
+        return func(*args)
+    
+    def inner_with_log():
+        print('----- logging function name----'+str(func))
+        for arg in args:
+            print('parameter:' + arg)
+        print('----- end logging parameter')
+        rvalue = func(*args)
+        print('-----log result:' + str(rvalue))
+        return rvalue
+    return inner_with_log() if islogging is True else inner_no_log()
 
 def do_something_func(a,b):
     print('print:' + a + b)
@@ -56,6 +63,6 @@ def do_something_func2(a):
 if __name__ == '__main__':
     MyClass1().print_some_thing('hello').print_me('world','!')
     MyClass2('test2').a
-    
+    print('-----------------')
     log_func_execute_info(do_something_func, 'hello','world')
     log_func_execute_info(do_something_func2,'world2')
