@@ -108,27 +108,23 @@ def init_func2(obj, a, b):
     obj['object data'] = {'a':a, 'b':b}
 
     
-def create_class(class_name, init_func, obj_func_lst, class_func_lst):
+def create_class(class_name, init_func, obj_func_lst, class_func_lst): 
     return {'class name':class_name, 'initialized function': init_func,
             'object functions':obj_func_lst, 'class function': class_func_lst}
-
-
-class_objs = {'class1': create_class('class1', init_func1, {'obj_func':obj_func, 'obj_func2':obj_func2}, {}),
-              'class2': create_class('class2', init_func2, {'obj_func3': obj_func3 },
-                                               {'class_func': class_func})}
-
+  
 '''
 add the log here 
 '''
-def invoke_object_method(obj, func_name, *args):
+
+def dot(all_objs, obj_name, func_name, *args):
+    obj = all_objs[obj_name]
     return obj['class']['object functions'][func_name](obj, * args)
 
-
-def invoke_class_method(class_name, class_func_name, *args):
+def dot_class(class_name, class_objs, class_func_name, *args):
     return class_objs[class_name]['class function'][class_func_name](*args)
 
 
-def create_obj_by_class(class_name, *args):
+def create_obj_by_class(class_name, class_objs, *args):
     new_obj = {}
     new_obj['class'] = class_objs[class_name]
     new_obj['class']['initialized function'](new_obj, *args)
@@ -144,10 +140,16 @@ if __name__ == '__main__':
     log(do_something_func, 'hello', 'world')
     log(do_something_func2, 'world2')
     
-    print('-------------------test my own class system')
+    print('-------------------test my own class system, run time, read class definition, read object create definition, and invoke the function')
     
-    my_class1_obj = create_obj_by_class('class1', 'first class')
+    class_objs = {}    
+    all_objs = {}
+    
+    class_objs['class1'] = create_class('class1', init_func1, {'obj_func':obj_func, 'obj_func2':obj_func2}, {})
+    class_objs['class2'] = create_class('class2', init_func2, {'obj_func3': obj_func3 }, {'class_func': class_func})
+    
+    all_objs['new_obj'] = create_obj_by_class('class1', class_objs, 'first class');
 
-    invoke_object_method(my_class1_obj, 'obj_func2', 'hello', 'world')  
-    invoke_class_method('class2', 'class_func', 'hello class ')
+    dot(all_objs, 'new_obj', 'obj_func2', 'hello', 'world')  
+    dot_class('class2', class_objs, 'class_func', 'hello class ')
     
