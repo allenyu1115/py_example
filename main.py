@@ -138,11 +138,12 @@ char_type_condition = { lambda char:len(char) == 0: CharType.end,
 def default_compute(operator, left_num, right_num):
     return   '(' + operator + ' ' + left_num + ' ' + right_num + ')' if (left_num != '' and operator != '') else right_num
 
-
 '''
 Can we just construct it into a monad, yes, we can 
 ,the state change can be hidden into a monad type
 '''
+
+
 def get_s_exp_left_to_right(s, compute_func=default_compute):
 
     def get_s_inner(s, last_char_type, right_num, left_num, last_operator):

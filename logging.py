@@ -116,9 +116,11 @@ def create_class(class_name, init_func, obj_func_lst, class_func_lst):
 add the log here 
 '''
 
+
 def dot(all_objs, obj_name, func_name, *args):
     obj = all_objs[obj_name]
     return obj['class']['object functions'][func_name](obj, * args)
+
 
 def dot_class(class_name, class_objs, class_func_name, *args):
     return class_objs[class_name]['class function'][class_func_name](*args)

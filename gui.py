@@ -52,8 +52,8 @@ if __name__ == '__main__':
                         event_handler_func(event[1], gui_display_data)
                         
                 time.sleep(1)
+
         cpu()
-        
 
     '''
     event type is 1 , how to handle event type 1, this handler just puts the event body into gui display data list
