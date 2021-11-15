@@ -1,14 +1,12 @@
 --------------------------------------RA Contract------------------------------------
 Boat Site
-Campsite
 Cabin
 Mooring Site
 --------------------------------------SK Contract------------------------------------
 Boat Site
-Campsite
 Cabin
 Mooring Site
-Full Service Accomodation
+Full Service 
 --------------------------------------PEI Contract------------------------------------
 Camp Cabin
 2 way
