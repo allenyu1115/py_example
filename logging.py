@@ -119,7 +119,7 @@ add the log here
 
 def dot(all_objs, obj_name, func_name, *args):
     obj = all_objs[obj_name]
-    return obj['class']['object functions'][func_name](obj, * args)
+    return obj['class']['object functions'][func_name](obj, *args)
 
 
 def dot_class(class_name, class_objs, class_func_name, *args):
