@@ -2,7 +2,7 @@
 compare the site_type_for_cc.txt
 
 '''
-from main import map_list, filter_list
+from map_reduce_filter import map_list, filter_list
 import os
 
       

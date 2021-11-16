@@ -42,7 +42,7 @@ class MyClass1(LoggingBase):
 
     def print_some_thing(self, a):
         print('myClass1' + a)
-        return MyClass2('test')     
+        return MyClass2('app')     
 
 '''
 
@@ -142,7 +142,7 @@ if __name__ == '__main__':
     log(do_something_func, 'hello', 'world')
     log(do_something_func2, 'world2')
     
-    print('-------------------test my own class system, run time, read class definition, read object create definition, and invoke the function')
+    print('-------------------app my own class system, run time, read class definition, read object create definition, and invoke the function')
     
     class_objs = {}    
     all_objs = {}
