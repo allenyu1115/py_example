@@ -52,7 +52,7 @@ def create_obj_by_class(class_name, class_objs, *args):
 
 if __name__ == '__main__':
         
-    print('-------------------app my own class system, run time, read class definition, read object create definition, and invoke the function')
+    print('run time, read class definition, read object create definition, and invoke the function')
     
     class_objs = {}    
     all_objs = {}
