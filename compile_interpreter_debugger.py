@@ -4,7 +4,8 @@ Created on 2021
 @author: ayu
 '''
 from enum import Enum
-from map_reduce_filter import get_key
+from map_reduce_filter import get_key,reduce_lst
+
 
 class CharType(Enum):
     operator_level = 1
@@ -80,18 +81,60 @@ def get_s_expr(s, f_compute=default_compute):
 if __name__ == '__main__':
        
     original = '71 + 8 * 96 - 899 - 85 + 8 / 4 '
-    operatorFunc = {'+':lambda x, y: x + y,
-                    '-':lambda x, y: x - y,
-                    '*':lambda x, y: x * y,
-                    '/': lambda x, y: x / y }
+    operator_func = {'+':lambda x, y, _z: int(x) + int(y),
+                    '-':lambda x, y,_z: int(x) - int(y),
+                    '*':lambda x, y,_z: int(x) * int(y),
+                    '/': lambda x, y,_z: int(x) / int(y) }
     
-    def  compute(operator, left_num, right_num):
+    
+    '''
+    compiler optimization
+    '''
+
+    def add_func(x,y,z):
+        tmp = int(x) + int(y)
+        cmd = 'add ' + str(x) + ' ' + str(y) 
+        z.append(cmd)
+        return tmp
+    
+    def minus_func(x,y,z):
+        tmp = int(x) - int(y)
+        cmd = 'minus ' + str(x) + ' ' + str(y) 
+        z.append(cmd)
+        return tmp
+    
+    def multiply_func(x,y,z):
+        tmp = int(x) * int(y)
+        cmd = 'multiply ' + str(x) + ' ' + str(y) 
+        z.append(cmd)
+        return tmp
+    
+    def divide_func(x,y,z):
+        tmp = int(x) / int(y)
+        cmd = 'divide ' + str(x) + ' ' + str(y) 
+        z.append(cmd)
+        return tmp    
+    
+    
+    for_debug = {'+':add_func,
+                    '-':minus_func,
+                    '*':multiply_func,
+                    '/': divide_func}
+    
+    def  compute(operator, left_num, right_num, func,add_info):
         if  left_num != '' and operator != '':
-            return operatorFunc.get(operator)(int(left_num), int(right_num))
+            return func.get(operator)(left_num, right_num,add_info)
         else:
             return right_num 
         
     print(get_s_exp_left_to_right(original))
     print(get_s_expr(original))
-    print(get_s_exp_left_to_right(original, compute))
-    print(get_s_expr(original, compute))
+    print(get_s_exp_left_to_right(original, lambda x, y , z :compute(x,y,z,operator_func,[])))
+    print(get_s_expr(original, lambda x, y , z :compute(x,y,z,operator_func,[]) ))
+    
+    external_info =[]
+    print(get_s_expr(original, lambda x, y , z :compute(x,y,z,for_debug,external_info) ))
+    print(reduce_lst(external_info,'',lambda x,y : x + y + '\n'))
+
+    
+    
