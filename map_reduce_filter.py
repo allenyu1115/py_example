@@ -84,6 +84,7 @@ def get_key(x, group_by_condition):
             if cond(x):
                 return key
 
+
 def test_map_reduce_filter():
     lst = [1, 3, 4, 6]  
     print(lst[0])   
@@ -115,10 +116,7 @@ def check_list(lst, category_func):
     
     return newLst if len(lst) == 0 else inner_check(lst, -1, category_func(lst[0]))
 
-
-
-
-    
+   
 if __name__ == '__main__':
 
     print(CustomizedList([1, 2, 6, 4]).map(lambda x: x + 1).map(lambda x: x * 2).execute())
@@ -132,5 +130,4 @@ if __name__ == '__main__':
         reduce_value = reduce_lst(mapped_lst, '', lambda x , y: x + y)
         rlst.append(reduce_value)
     print(rlst)
- 
 

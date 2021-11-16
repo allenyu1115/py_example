@@ -14,7 +14,6 @@ class CharType(Enum):
     number = 5
     end = 6
     
-
 char_type_condition = { lambda char:len(char) == 0: CharType.end,
                         lambda char: char.isspace(): CharType.blank,
                         lambda char: char.isnumeric(): CharType.number,
@@ -30,7 +29,6 @@ def default_compute(operator, left_num, right_num):
 Can we just construct it into a monad, yes, we can 
 ,the state change can be hidden into a monad type
 '''
-
 
 def get_s_exp_left_to_right(s, compute_func=default_compute):
 
@@ -49,7 +47,6 @@ def get_s_exp_left_to_right(s, compute_func=default_compute):
             return ''   
     
     return s if len(s) == 0 else get_s_inner(s, CharType.undefine, '', '', '')    
-
 
 def get_s_expr(s, f_compute=default_compute):
     
@@ -79,8 +76,6 @@ def get_s_expr(s, f_compute=default_compute):
             return sum_all(operator_stack, number_stack, right_num)
         
     return s if len(s) == 0 else get_s_expr_priority(s, '', [], [])
-
-
 
 if __name__ == '__main__':
        
