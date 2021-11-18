@@ -29,7 +29,8 @@ def reduce_lst(lst, default, reduce_func):
 
 
 class CustomizedList:
-
+    m = 'map'
+    f = 'filter'
     def __init__(self, lst):
         self.lst = lst
         self.func_lst = []
@@ -41,7 +42,7 @@ class CustomizedList:
         
         new_func_lst = []
         new_func_lst.extend(self.func_lst)
-        new_func_lst.append(('map',func))
+        new_func_lst.append((CustomizedList.m,func))
         
         new_cust_lst.func_lst = new_func_lst
         
@@ -54,7 +55,7 @@ class CustomizedList:
         
         new_func_lst = []
         new_func_lst.extend(self.func_lst)
-        new_func_lst.append(('filter',func))
+        new_func_lst.append((CustomizedList.f,func))
         new_cust_lst.func_lst = new_func_lst
         
         return new_cust_lst
@@ -63,7 +64,7 @@ class CustomizedList:
         rlst = []
         rlst.extend(self.lst)
         for each in self.func_lst:
-            rlst = ( map_list if each[0] == 'map' else filter_list)(rlst, each[1])
+            rlst = ( map_list if each[0] == CustomizedList.m else filter_list)(rlst, each[1])
         return rlst
             
 
