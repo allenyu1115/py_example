@@ -32,23 +32,40 @@ class CustomizedList:
 
     def __init__(self, lst):
         self.lst = lst
-        self.map_func_lst = []
+        self.func_lst = []
 
-    def map(self, map_func):
-        self.map_func_lst.append(map_func)
-        return self
-    
-    def clear_map_func(self):
-        self.map_func_lst.clear()
+    def map(self, func):
+        new_lst = []
+        new_lst.extend(self.lst)
+        new_cust_lst = CustomizedList(new_lst)
         
+        new_func_lst = []
+        new_func_lst.extend(self.func_lst)
+        new_func_lst.append(('map',func))
+        
+        new_cust_lst.func_lst = new_func_lst
+        
+        return new_cust_lst
+    
+    def filter(self, func):
+        new_lst = []
+        new_lst.extend(self.lst)
+        new_cust_lst = CustomizedList(new_lst)
+        
+        new_func_lst = []
+        new_func_lst.extend(self.func_lst)
+        new_func_lst.append(('filter',func))
+        new_cust_lst.func_lst = new_func_lst
+        
+        return new_cust_lst
+            
     def execute(self): 
         rlst = []
-        for i in self.lst:
-            result = i
-            for func in self.map_func_lst:
-                result = func(result)
-            rlst.append(result)
+        rlst.extend(self.lst)
+        for each in self.func_lst:
+            rlst = ( map_list if each[0] == 'map' else filter_list)(rlst, each[1])
         return rlst
+            
 
                 
 def reduce_recursive(lst, default, reduce_func): 
