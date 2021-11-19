@@ -31,6 +31,7 @@ def reduce_lst(lst, default, reduce_func):
 class CustomizedList:
     m = 'map'
     f = 'filter'
+
     def __init__(self, lst):
         self.lst = lst
         self.func_lst = []
@@ -42,7 +43,7 @@ class CustomizedList:
         
         new_func_lst = []
         new_func_lst.extend(self.func_lst)
-        new_func_lst.append((CustomizedList.m,func))
+        new_func_lst.append((CustomizedList.m, func))
         
         new_cust_lst.func_lst = new_func_lst
         
@@ -55,18 +56,34 @@ class CustomizedList:
         
         new_func_lst = []
         new_func_lst.extend(self.func_lst)
-        new_func_lst.append((CustomizedList.f,func))
+        new_func_lst.append((CustomizedList.f, func))
         new_cust_lst.func_lst = new_func_lst
         
-        return new_cust_lst
-            
+        return new_cust_lst 
+    
+    def flat(self):
+        rlst = []
+        def inner(e, rlst):
+            if not isinstance(e, CustomizedList):
+                rlst.append(e)
+            else:
+                [inner(x, rlst) for x in  e.execute() ] 
+        inner(self, rlst)
+        return rlst
+        
     def execute(self): 
         rlst = []
         rlst.extend(self.lst)
         for each in self.func_lst:
-            rlst = ( map_list if each[0] == CustomizedList.m else filter_list)(rlst, each[1])
+            rlst = (map_list if each[0] == CustomizedList.m else filter_list)(rlst, each[1])
         return rlst
-            
+
+
+def flat(e, rlst):
+    if isinstance(e, CustomizedList):
+        [flat(x, rlst) for x in  e.execute() ] 
+    else:
+        rlst.append(e)
 
                 
 def reduce_recursive(lst, default, reduce_func): 
