@@ -2,10 +2,11 @@
 compare two files
 
 '''
-from map_reduce_filter import map_list, filter_list
 import os
 
-      
+from map_reduce_filter import map_list, filter_list
+
+
 def read_from_file(file_path):
     with open(file_path) as f:
         return f.readlines()

@@ -151,6 +151,14 @@ def check_list(lst, category_func):
     
     return newLst if len(lst) == 0 else inner_check(lst, -1, category_func(lst[0]))
 
+
+def add_times(a,b):
+    if b == 1:
+        return a
+    else:
+        return a + add_times(a, b-1)
+    
+print(add_times(2,3))
    
 if __name__ == '__main__':
 
