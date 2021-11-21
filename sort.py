@@ -35,8 +35,6 @@ def convert_lst(lst):
     return map_list(lst, func )    
 
 
-
-
 def merge_lst(left, right):
     rlst = []
     
@@ -74,6 +72,6 @@ def merge_sort(lst):
     
 if __name__ == '__main__':
         
-    print(select_sort([4,6,1,1,8,3,5])) 
-    
-    print(merge_sort([4,6,1,1,8,3,5,9]))
+    print(select_sort([4,6,1,1,8,3,5,9,2,7])) 
+    print('----------------------------')  
+    print(merge_sort([4,6,1,1,8,3,5,9,2,7]))
