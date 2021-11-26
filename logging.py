@@ -23,7 +23,7 @@ and dlink.status =
 and dlink.type_id = 
 and dlink.id = 
 and attribute2.attributetype= 
-and attribute2.value = 
+and attribute2.value =  )
 '''
 
 class LoggingBase:
