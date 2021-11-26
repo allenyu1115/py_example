@@ -11,6 +11,24 @@ class version
 '''
 
 
+'''
+and exists ( select 1 
+from link_attribute as attribute1 
+join attribute1.link as link 
+join link_attribute as attribute2 
+on link.id = attribute2.linkid
+where attribute1.attributetype = 
+and link.status =
+and link.type_id = 
+and link.id = 
+and attribute1.value = {id}
+and attribute2.attributetype= 
+and attribute2.value = 
+and link.date >= )
+
+
+'''
+
 class LoggingBase:
 
     def __getattribute__(self, item):
