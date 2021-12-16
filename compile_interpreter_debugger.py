@@ -81,6 +81,23 @@ def get_s_expr(s, f_compute=default_compute):
 if __name__ == '__main__':
        
     original = '71 + 8 * 96 - 899 - 85 + 8 / 4 '
+    
+    binding_var = 'a + 1 * 4 + 6 - 7'
+    
+    binding_enviroment = {'a': '5'}
+    
+    
+    def binding(s, env):
+        tmp = s
+        for x, y in env.items():
+            tmp = tmp.replace(x, y)
+        return tmp
+    
+    
+        
+    print('result: ' + get_s_expr(binding(binding_var,binding_enviroment)))
+    
+    
     operator_func = {'+':lambda x, y, _z: int(x) + int(y),
                     '-':lambda x, y,_z: int(x) - int(y),
                     '*':lambda x, y,_z: int(x) * int(y),
