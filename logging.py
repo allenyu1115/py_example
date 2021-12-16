@@ -10,22 +10,6 @@ islogging = True
 class version
 '''
 
-
-'''
-and exists ( select 1 
-from link_attribute as attribute1 
-join attribute1.link as dlink 
-join link_attribute as attribute2 
-on dlink.id = attribute2.linkid
-where attribute1.attributetype = 
-and attribute1.value = {id}
-and dlink.status =
-and dlink.type_id = 
-and dlink.id = 
-and attribute2.attributetype= 
-and attribute2.value =  )
-'''
-
 class LoggingBase:
 
     def __getattribute__(self, item):
