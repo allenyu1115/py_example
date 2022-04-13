@@ -70,6 +70,19 @@ class CustomizedList:
                 [inner(x, rlst) for x in  e.execute() ] 
         inner(self, rlst)
         return rlst
+    
+    def recursive_execute(self):
+        rlst = []
+        def inner(e):
+            inner_lst = []
+            if not isinstance(e, CustomizedList):
+                inner_lst.append(e)
+                return inner_lst
+            else:
+                inner_lst.extend(   inner(x) for x in  e.execute()   )
+                return inner_lst 
+        rlst.extend(inner(self))
+        return rlst
         
     def execute(self): 
         rlst = []
