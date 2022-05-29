@@ -4,6 +4,16 @@ Created on May 29, 2022
 @author: allenyu
 '''
 
+'''
+
+(+  *(3 4 ) 5 )
+
+(+  *(3 4 ) 5 )   k: lambda x : x 
+*(3 4 )  k: lambda x : +(x 5)
+3  k: lambda x: +( *(x 4) 5)
+4  k: lambda x: +( *(4 *) 5)
+5  k: lambda x: +( *(3 4) x)
+'''
 
 def map_lst(lst, f):
     rls = []
