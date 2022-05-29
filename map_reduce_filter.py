@@ -6,6 +6,7 @@ generated 10.28
 '''
 
 
+
 def map_list(lst, func):
     rlst = []
     for l in lst:
